@@ -1,0 +1,27 @@
+{
+  "A1": {
+    "head_name": "Nacl_A1",
+    "substance_name": "NaCl",
+    "powder": "sodium_chloride"
+  },
+  "A2": {
+    "head_name": "Gum_A2",
+    "substance_name": "Gum",
+    "powder": "powder_2"
+  },
+  "A3": {
+    "head_name": "Pluronic_F-127_A3",
+    "substance_name": "Pluronic_F-127",
+    "powder": "powder_3"
+  },
+  "A4": {
+    "head_name": "head_substance_4",
+    "substance_name": "substance_4",
+    "powder": "powder_4"
+  },
+  "A5": {
+    "head_name": "Salt5_A5",
+    "substance_name": "Salt5",
+    "powder": "powder_5"
+  }
+}

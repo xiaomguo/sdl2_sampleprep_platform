@@ -1,0 +1,20 @@
+{
+    "solvents": 
+    {
+    "A1": {
+            "name": "Water",
+            "user_defined_ID": "H20"
+        }, 
+    "A2":
+        {
+            "name": "Ethanol",
+            "user_defined_ID": "EtOH"
+        },
+    "A3" :
+       {
+            "name": "Ethyl Acetate",
+            "user_defined_ID": "EtOAc"
+        }
+    }
+}
+    
