@@ -1,0 +1,58 @@
+{
+    "ordering": [
+        [
+            "A1"
+        ]
+    ],
+    "brand": {
+        "brand": "ikaunit",
+        "brandId": []
+    },
+    "metadata": {
+        "displayName": "ikaUnit",
+        "displayCategory": "reservoir",
+        "displayVolumeUnits": "\u00b5L",
+        "tags": []
+    },
+    "dimensions": {
+        "xDimension": 150,
+        "yDimension": 87,
+        "zDimension": 180
+    },
+    "wells": {
+        "A1": {
+            "depth": 1,
+            "totalLiquidVolume": 4000,
+            "shape": "circular",
+            "diameter": 6,
+            "x": 150,
+            "y": 80,
+            "z": 180
+        }
+    },
+    "groups": [
+        {
+            "metadata": {
+                "wellBottomShape": "flat"
+            },
+            "wells": [
+                "A1"
+            ]
+        }
+    ],
+    "parameters": {
+        "format": "irregular",
+        "quirks": [],
+        "isTiprack": false,
+        "isMagneticModuleCompatible": false,
+        "loadName": "ikaunit"
+    },
+    "namespace": "custom_beta",
+    "version": 1,
+    "schemaVersion": 2,
+    "cornerOffsetFromSlot": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+    }
+}

@@ -24,12 +24,12 @@ crop_cfg = {
 STRIP_ROI = (250, 950, 120, 260)   # (x, y, w, h)  ← you may fine-tune
 
 # ---- color card layout (IN CROPPED IMAGE COORDS)
-CARD_ORIGIN = (910, 1160)          # top-left of pH=1 block
+CARD_ORIGIN = (910, 1100)          # top-left of pH=1 block
 CELL_W = 100
 CELL_H = 180
 COL_GAP = 220
 # Allow a different column gap for the second row
-COL_GAP_ROW2 = 160  # <-- Set this to the actual gap for the second row
+COL_GAP_ROW2 = 220  # <-- Set this to the actual gap for the second row
 ROW_GAP = 280
 
 PH_VALUES = np.array([5.5, 5.8, 6.0, 6.2, 6.4, 6.6, 6.8, 7.0, 7.2, 7.4, 7.6, 8.0])  # 12 values, 6 per row
@@ -110,7 +110,7 @@ def ph_from_image(image_path, output_dir, original_filename=None):
 
     # ---- normalize using white region above color card
     # Typical ROI: above the color blocks, e.g., (x, y, w, h) = (CARD_ORIGIN[0], CARD_ORIGIN[1] - 80, 200, 60)
-    WHITE_ROI = (1050,990,100,100)
+    WHITE_ROI = (1050,890,90,90)
     white_lab = bgr_to_lab(mean_bgr(img, WHITE_ROI))
     strip_lab -= white_lab
     ref_labs -= white_lab

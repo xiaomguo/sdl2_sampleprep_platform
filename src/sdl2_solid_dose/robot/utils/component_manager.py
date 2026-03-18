@@ -68,6 +68,7 @@ class ComponentManager:
         self.component_loggers: Dict[str, Any] = {}
         self._component_registry: Dict[str, Type] = {}
         self._is_shutting_down = False
+        self._cleanup_completed = False
         
         # Create ComponentManager's own debug logger
         self.manager_logger = self._create_manager_logger()
@@ -506,6 +507,10 @@ class ComponentManager:
     
     def cleanup_all(self):
         """Simple cleanup of all registered components."""
+        if self._cleanup_completed:
+            self.manager_logger.debug("Cleanup already completed, skipping duplicate call")
+            return
+
         if self._is_shutting_down:
             self.manager_logger.debug("Cleanup already in progress, skipping duplicate call")
             return
@@ -529,6 +534,7 @@ class ComponentManager:
             self.manager_logger.debug("Error during cleanup process: %s", str(e))
         finally:
             self._is_shutting_down = False
+            self._cleanup_completed = True
     
     def cleanup_old_logs(self, days_to_keep: int = 30):
         """

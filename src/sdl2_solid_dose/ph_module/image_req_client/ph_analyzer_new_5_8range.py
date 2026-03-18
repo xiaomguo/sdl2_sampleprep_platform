@@ -12,7 +12,7 @@ from typing import Optional, Tuple
 try:
     from .ph_color_reader_new_xg_5_8range import ph_from_image
 except ImportError:
-    from ph_color_reader_new_xg_5_8range import ph_from_image
+    from .ph_color_reader_new_xg_5_8range import ph_from_image
 
 # ============================================================
 # LED COLOR CONFIGURATION (CHANGE THESE VALUES)
@@ -21,7 +21,9 @@ except ImportError:
 # LED_COLOR_R = 0         # Red (0-255)
 # LED_COLOR_G = 0       # Green (0-255)
 # LED_COLOR_B = 0        # Blue (0-255)
-
+# grey 172.31.35.224, 0-6range
+# black 172.31.33.117, 1-12
+# white 172.31.60.12, 5-8
 
 
 class PHAnalyzer:
@@ -31,7 +33,7 @@ class PHAnalyzer:
         self.socket = None
         self.connected = False
         self.save_raw_images = save_raw_images
-
+   
 
     def connect(self):
         try:
@@ -115,7 +117,7 @@ class PHAnalyzer:
         data = self._recv_file(size)
 
         if self.save_raw_images:
-            output_dir = Path(__file__).parent / "output_images"
+            output_dir = Path(__file__).parent.parent.parent / "data" / "output_images"
             output_dir.mkdir(parents=True, exist_ok=True)
             path = output_dir / filename
             path.write_bytes(data)
@@ -132,7 +134,7 @@ class PHAnalyzer:
 
     def analyze_image(self, image_path, original_filename=None):
         try:
-            out_dir = Path(__file__).parent / "output_images"
+            out_dir = Path(__file__).parent.parent.parent / "data" / "output_images"
             out_dir.mkdir(parents=True, exist_ok=True)
 
             print("[pHAnalyzer] Analyzing pH...")

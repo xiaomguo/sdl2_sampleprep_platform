@@ -16,8 +16,9 @@ class OTFlexProtocol:
         simulation: bool = True,
         repo_root: Path | None = None,
         layout_relpath: str = "settings/opentrons/solide_liquid_hs_hplc_workflow_0308_layout.json",
-        tip_state_relpath: str = "settings/opentrons/state/tip_tracking_demo.json",
+        tip_state_relpath: str = "settings/opentrons/state/tip_tracking_1000_demo.json",
         tiprack_nickname: str = "tip_1000_96_1",
+        tip_state_relpaths: Optional[Dict[str, str]] = None,
     ):
         load_dotenv()
         self.simulation = simulation
@@ -27,11 +28,21 @@ class OTFlexProtocol:
         self.settings_dir = self.repo_root / "settings" / "opentrons"
         self.labware_dir = self.settings_dir / "labware"
         self.layout_path = self.repo_root / layout_relpath
-        self.tip_state_path = self.repo_root / tip_state_relpath
         self.tiprack_nickname = tiprack_nickname
+        self.tip_state_paths: Dict[str, Path] = {}
+
+        if tip_state_relpaths:
+            for nickname, relpath in tip_state_relpaths.items():
+                self.tip_state_paths[nickname] = self.repo_root / relpath
+
+        # Backward compatibility: keep legacy single-tiprack path behavior.
+        if self.tiprack_nickname not in self.tip_state_paths:
+            self.tip_state_paths[self.tiprack_nickname] = self.repo_root / tip_state_relpath
+
+        self.tip_state_path = self.tip_state_paths[self.tiprack_nickname]
 
         self.layout = self._load_json(self.layout_path)
-        self._validate_tip_status_json()
+        self._validate_tip_status_jsons()
         self._setup_connection()
         self._load_labware_and_instrument()
 
@@ -56,20 +67,25 @@ class OTFlexProtocol:
         with path.open("r", encoding="utf-8") as f:
             return json.load(f)
 
-    def _validate_tip_status_json(self) -> None:
-        if not self.tip_state_path.exists():
+    def _validate_tip_status_json(self, tip_state_path: Path, expected_nickname: str) -> None:
+        if not tip_state_path.exists():
             raise FileNotFoundError(
-                f"Tip tracking JSON is required and was not found: {self.tip_state_path}"
+                f"Tip tracking JSON is required and was not found: {tip_state_path}"
             )
 
-        loaded = self._load_json(self.tip_state_path)
+        loaded = self._load_json(tip_state_path)
         if "config" not in loaded or "tip_status" not in loaded["config"]:
             raise ValueError(
-                f"Tip tracking JSON must contain config.tip_status: {self.tip_state_path}"
+                f"Tip tracking JSON must contain config.tip_status: {tip_state_path}"
             )
         if "nickname" not in loaded:
             raise ValueError(
-                f"Tip tracking JSON must contain nickname: {self.tip_state_path}"
+                f"Tip tracking JSON must contain nickname: {tip_state_path}"
+            )
+        if loaded["nickname"] != expected_nickname:
+            raise ValueError(
+                "Tip tracking JSON nickname does not match tiprack nickname: "
+                f"expected '{expected_nickname}', got '{loaded['nickname']}' ({tip_state_path})"
             )
 
         tip_status = loaded["config"]["tip_status"]
@@ -78,6 +94,10 @@ class OTFlexProtocol:
         for row in tip_status:
             if not isinstance(row, list) or len(row) != 12:
                 raise ValueError("config.tip_status must be an 8x12 matrix.")
+
+    def _validate_tip_status_jsons(self) -> None:
+        for tiprack_nickname, tip_state_path in self.tip_state_paths.items():
+            self._validate_tip_status_json(tip_state_path, tiprack_nickname)
 
     def _resolve_labware_definition(self, labware: Dict) -> Dict:
         lw = dict(labware)
@@ -115,8 +135,9 @@ class OTFlexProtocol:
 
     def _load_labware_and_instrument(self) -> None:
         for labware in self.layout["labware"]:
-            if labware["nickname"] == self.tiprack_nickname:
-                self.ot.load_labware(self.tip_state_path)
+            tip_state_path = self.tip_state_paths.get(labware["nickname"])
+            if tip_state_path is not None:
+                self.ot.load_labware(tip_state_path)
                 continue
             self.ot.load_labware(self._resolve_labware_definition(labware))
 

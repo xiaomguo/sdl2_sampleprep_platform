@@ -34,8 +34,6 @@ DILUTION_DEST_MIX_VOLUME_UL = 200
 DOSE_PLAN = [
     ("A1", 20),
 ]
-
-
 HS_NICKNAME = "hs"
 HS_MODULE_NAME = "heaterShakerModuleV1"
 HS_LOCATION = "A1"

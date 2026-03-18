@@ -1,0 +1,96 @@
+{
+  "labware": [
+    {
+      "nickname": "vial_plate_6",
+      "loadname": "20mlvial_6_wellplate",
+      "location": "C1",
+      "ot_default": false,
+      "config_file": "20mlvial_6_wellplate.json"
+    },
+    {
+      "nickname": "printed_24wellplate",
+      "loadname": "printed24wellplate",
+      "location": "B3",
+      "ot_default": false,
+      "config_file": "printed_24_wellplate_15000ul.json"
+    },
+    {
+      "nickname": "ph_unit",
+      "loadname": "phunit",
+      "location": "D1",
+      "ot_default": false,
+      "config_file": "phunit.json"
+    },
+    {
+      "nickname": "ika_unit",
+      "loadname": "ikaunit",
+      "location": "D3",
+      "ot_default": false,
+      "config_file": "ikaunit.json"
+    },
+    {
+      "nickname": "safe_ika",
+      "loadname": "safe_ika",
+      "location": "C3",
+      "ot_default": false,
+      "config_file": "safe_ika.json"
+    },
+    {
+      "nickname": "hplc_plate_54",
+      "loadname": "hplc_plate_54",
+      "location": "D2",
+      "ot_default": false,
+      "config_file": "hplc_plate_54.json"
+    },
+    {
+      "nickname": "capfilter_24",
+      "loadname": "capfilter_24",
+      "location": "B2",
+      "ot_default": false,
+      "config_file": "capfilter_24.json"
+    },
+
+    {
+      "nickname": "filter_bin",
+      "loadname": "filter_bin",
+      "location": "B1",
+      "ot_default": false,
+      "config_file": "filter_bin.json"
+    },
+
+    {
+      "nickname": "tip_1000_96_1",
+      "loadname": "opentrons_flex_96_filtertiprack_1000ul",
+      "location": "A2",
+      "ot_default": true
+    },
+
+    {
+      "nickname": "tip_50_96_1",
+      "loadname": "opentrons_flex_96_filtertiprack_50ul",
+      "location": "C2",
+      "ot_default": true
+    }
+
+  ],
+  "instruments": [
+    {
+      "nickname": "p1000",
+      "instrument_name": "flex_1channel_1000",
+      "mount": "left",
+      "tip_racks": [
+        "tip_1000_96_1"
+      ],
+      "ot_default": true
+    },
+    {
+      "nickname": "p50",
+      "instrument_name": "flex_1channel_50",
+      "mount": "right",
+      "tip_racks": [
+        "tip_50_96_1"
+      ],
+      "ot_default": true
+    }
+  ]
+}
