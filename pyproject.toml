@@ -22,3 +22,6 @@ where = ["src"]
   "resources/*.json",
   "resources/solvent_library/*.json",
 ]
+"sdl2_solid_dose.ph_module.image_server" = [
+  "*.yaml",
+]
