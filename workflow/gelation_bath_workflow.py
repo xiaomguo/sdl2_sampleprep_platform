@@ -11,11 +11,13 @@ TARGET_WEIGHT_MG = 30
 MAX_ATTEMPTS = 3
 
 PIP_50 = "p50"
+PIP_1000 = "p1000"
 SAFE_IKA = "safe_ika"
 IKA_UNIT = "ika_unit"
 IKA_WELL = "A1"
 PH_UNIT = "ph_unit"
 PH_WELL = "A1"
+ASPIRATE_FLOW_RATE_UL_S = 20
 TRANSFER_VOLUME_UL = 50
 OT_LAYOUT = "settings/opentrons/gelation_bath_workflow_0318_layout.json"
 TIPRACK_50 = "tip_50_96_1"
@@ -58,48 +60,49 @@ def run_robot_and_solid_dosing_step() -> None:
 
 
 def run_ika_to_ph_transfer_step(protocol: OTFlexProtocol) -> None:
-	"""Use p50 to transfer liquid from ika_unit A1 to ph_unit A1."""
+	"""Use p1000 to transfer liquid from ika_unit A1 to ph_unit A1."""
 	protocol.pick_up_tracked_tip(
-		pip_name=PIP_50,
+		pip_name=PIP_1000,
 		tiprack_nickname=TIPRACK_50,
 		sample_id=f"{IKA_UNIT}_{IKA_WELL}",
 		start_well="A1",
 	)
 	protocol.move_pipette_to_well(
-		pip_name=PIP_50,
+		pip_name=PIP_1000,
 		labware=SAFE_IKA,
 		well="A1",
 	)
 	protocol.move_pipette_to_well(
-		pip_name=PIP_50,
+		pip_name=PIP_1000,
 		labware=IKA_UNIT,
 		well=IKA_WELL,
 	)
+	protocol.ot.set_flow_rate(pip_name=PIP_1000, aspirate=ASPIRATE_FLOW_RATE_UL_S)
 	protocol.aspirate_from(
-		pip_name=PIP_50,
+		pip_name=PIP_1000,
 		labware=IKA_UNIT,
 		well=IKA_WELL,
 		volume=TRANSFER_VOLUME_UL,
 		top=-50,
 	)
 	protocol.move_pipette_to_well(
-		pip_name=PIP_50,
+		pip_name=PIP_1000,
 		labware=SAFE_IKA,
 		well="A1",
 	)
 	protocol.move_pipette_to_well(
-		pip_name=PIP_50,
+		pip_name=PIP_1000,
 		labware="vial_plate_6",
 		well="A1",
 		top=115.5,
 	)
 	protocol.dispense_to(
-		pip_name=PIP_50,
+		pip_name=PIP_1000,
 		labware=PH_UNIT,
 		well=PH_WELL,
 		volume=TRANSFER_VOLUME_UL,
 	)
-	protocol.drop_tip(pip_name=PIP_50)
+	protocol.drop_tip(pip_name=PIP_1000)
 	protocol.ot.home()
 
 

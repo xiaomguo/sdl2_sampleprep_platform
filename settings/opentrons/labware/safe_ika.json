@@ -15,7 +15,7 @@
         "tags": []
     },
     "dimensions": {
-        "xDimension": 190,
+        "xDimension": 130,
         "yDimension": 85.48,
         "zDimension": 180
     },
@@ -25,7 +25,7 @@
             "totalLiquidVolume": 0,
             "shape": "circular",
             "diameter": 6,
-            "x": 180,
+            "x": 130,
             "y": 70,
             "z": 180
         }
