@@ -28,5 +28,5 @@ with pHAnalyzer() as analyzer:
     print("\nSummary of results:")
     for res in results: 
         print(f"LED {res['led']}: Filename: {res['filename']}, Analysis: {res['analysis']}")
-    #analyzer.dispense_strip()
+    analyzer.dispense_strip()
 
